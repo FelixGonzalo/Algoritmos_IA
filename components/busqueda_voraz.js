@@ -1,98 +1,98 @@
 /*Programar el Algoritmo Voraz para el caso H-DLR, considerando la tabla descrita en teoría
 SUG. Almacenar los valores de h(n) y los vecinos de cada ciudad*/
 
-/* 1) Creamos la clase CIUDAD e instanciamos los objetos necesarios */
+const arrayCiudades = []
 
-class Ciudad {
-    constructor(id, ciudad, hdlr){
-        this.id = id;
-        this.ciudad = ciudad;
-        this.hdlr = hdlr
-        this.rutas = []
+const crearCiudad = (id = -1, nombre = 'desconocido', distanciaLineaRecta = -1) => {
+    ciudad = {
+        id: id,
+        nombre: nombre,
+        hdlr: distanciaLineaRecta,
+        rutas: []
     }
+    arrayCiudades.push(ciudad)
+    return ciudad
 }
 
-var c1 = new Ciudad(1,'Arad',366);
-var c2 = new Ciudad(2,'Lugoj',244);
-var c3 = new Ciudad(3,'Rimnicuc Vilcea',193);
-var c4 = new Ciudad(4,'Craiova',160);
-var c5 = new Ciudad(5,'Mehadia',241);
-var c6 = new Ciudad(6,'Sibiu',253);
-var c7 = new Ciudad(7,'Dobreta',242);
-var c8 = new Ciudad(8,'Oradea',380);
-var c9 = new Ciudad(9,'Timisoara',329);
-var c10 = new Ciudad(10,'Fagaras',176);
-var c11 = new Ciudad(11,'Pitesti',100);
-var c12 = new Ciudad(12,'Zerind',374);
-var c13 = new Ciudad(13,'Bucarest',0);
+const crearVecinos = (nombre = 'desconocido', ciudades = []) => {
+    let idCiudad = arrayCiudades.findIndex((obj) => obj.nombre === nombre)
+    arrayCiudades[idCiudad].rutas = ciudades;
+}
 
-/* 1.1) Agregamos las rutas de cada ciudad */
-c1.rutas.push(c6,c9,c12);
-c2.rutas.push(c5,c9);
-c3.rutas.push(c4,c6,c11);
-c4.rutas.push(c3,c7,c11);
-c5.rutas.push(c2,c7);
-c6.rutas.push(c1,c3,c8,c10);
-c7.rutas.push(c4,c5);
-c8.rutas.push(c6,c12);
-c9.rutas.push(c1,c2);
-c10.rutas.push(c6,c13);
-c11.rutas.push(c3,c4,c13);
-c12.rutas.push(c1,c8);
-c13.rutas.push(c10,c11);
+const cArad = crearCiudad(1,'Arad',366)
+const cBucarest = crearCiudad(2,'Bucarest',0)
+const cCraiova = crearCiudad(3,'Craiova',160)
+const cDobreta = crearCiudad(4,'Dobreta',242)
+const cEforie = crearCiudad(5,'Eforie',161)
+const cFagaras = crearCiudad(6,'Fagaras',176)
+const cGiurgiu = crearCiudad(7,'Giurgiu',77)
+const cHirsova = crearCiudad(8,'Hirsova',151)
+const clasi = crearCiudad(9,'lasi',226)
+const cLugoj = crearCiudad(10,'Lugoj',244)
+const cMehadia = crearCiudad(11,'Mehadia',241);
+const cNeamt = crearCiudad(12,'Neamt',234);
+const cOradea = crearCiudad(13,'Oradea',380);
+const cPitesti = crearCiudad(14,'Pitesti',100);
+const cRimnicucVilcea = crearCiudad(15,'Rimnicuc Vilcea',193);
+const cSibiu = crearCiudad(16,'Sibiu',253);
+const cTimisoara = crearCiudad(17,'Timisoara',329);
+const cUrziceni = crearCiudad(18,'Urziceni',80);
+const cVaslui = crearCiudad(19,'Vaslui',199);
+const cZerind = crearCiudad(20,'Zerind',374);
 
-/* 2) Algoritmo de busqueda VORAZ */
+crearVecinos('Arad', ciudades = [cTimisoara, cSibiu, cZerind])
+crearVecinos('Bucarest', ciudades = [cGiurgiu,cPitesti,cFagaras,cUrziceni])
+crearVecinos('Craiova', ciudades = [cDobreta,cRimnicucVilcea,cPitesti])
+crearVecinos('Dobreta', ciudades = [cMehadia,cCraiova])
+crearVecinos('Eforie', ciudades = [cHirsova])
+crearVecinos('Fagaras', ciudades = [cSibiu,cBucarest])
+crearVecinos('Giurgiu', ciudades = [cBucarest])
+crearVecinos('Hirsova', ciudades = [cEforie,cUrziceni])
+crearVecinos('lasi', ciudades = [cNeamt,cVaslui])
+crearVecinos('Lugoj', ciudades = [cTimisoara,cMehadia])
+crearVecinos('Mehadia', ciudades = [cLugoj,cDobreta])
+crearVecinos('Neamt', ciudades = [clasi])
+crearVecinos('Oradea', ciudades = [cZerind,cSibiu])
+crearVecinos('Pitesti', ciudades = [cCraiova,cRimnicucVilcea,cBucarest])
+crearVecinos('Rimnicuc Vilcea', ciudades = [cCraiova,cSibiu,cPitesti])
+crearVecinos('Sibiu', ciudades = [cArad,cOradea,cFagaras,cRimnicucVilcea])
+crearVecinos('Timisoara', ciudades = [cArad,cLugoj])
+crearVecinos('Urziceni', ciudades = [cBucarest,cVaslui,cHirsova])
+crearVecinos('Vaslui', ciudades = [clasi,cUrziceni])
+crearVecinos('Zerind', ciudades = [cArad,cOradea])
 
-var ciudadOrigen = c1; // buscar por ID
-var ciudadDestino = c13;
-var conjS = []; // conjunto S caminoElegido
-var conjC = []; // conjunto C ciudades Candidatas
 
-conjC.push(c1,c2,c3,c4,c5,c6,c7,c8,c9,c10,c11,c12,c13);
+const algoritmoBusquedaVoraz = (ciudadOrigen = 'desconocido', ciudadDestino = 'desconocido') => {
+    const arrayRuta = []
+    let temp = arrayCiudades.filter((obj) => obj.nombre === ciudadOrigen)
+    let objCiudadOrigen = temp[0]
 
-var condicion = true;
-var ciudadElegida = new Ciudad(0,'Temporal',9999); // ciudad con menor valor hdlr
+    arrayRuta.push(objCiudadOrigen)
 
-var CONT = 0;
-conjS.push(ciudadOrigen);
-var i = conjC.indexOf(ciudadOrigen);
-conjC.splice(i,1);
+    let ciudadElegida = {
+        id: -1,
+        nombre: 'temp',
+        hdlr: 999999999,
+        rutas: []
+    }
 
-while (ciudadDestino.id != ciudadOrigen.id && CONT < 15) {
-    CONT +=1
-    console.log("////////////////////////////////////////////////////////////////////////iteración " + CONT)
-
-    ciudadOrigen.rutas.forEach(objCiudad => {
-        if (objCiudad.hdlr < ciudadElegida.hdlr) {
-            ciudadElegida = objCiudad;
+    while (ciudadElegida.nombre !== ciudadDestino) {
+        ciudadElegida = {
+            id: -1,
+            nombre: 'temp',
+            hdlr: 999999999,
+            rutas: []
         }
-    });
 
-    conjS.push(ciudadElegida);
-    var i = conjC.indexOf(ciudadElegida);
-    conjC.splice(i,1);
-    ciudadOrigen = ciudadElegida;
-    
-    // console.log("ciudad elegida::::")
-    // console.log(ciudadElegida)
-    // console-console.log("- -----------------------------CONJUNTO C ------");
-    // mostrarLista(conjC);
-    console-console.log("- -----------------------------CONJUNTO S ------");
-    mostrarLista(conjS);
+        arrayRuta[arrayRuta.length - 1 ].rutas.forEach(obj => {
+            if (obj.hdlr < ciudadElegida.hdlr) {
+                ciudadElegida = obj
+            }
+        });
+        arrayRuta.push(ciudadElegida)
+    }
+
+    console.log(arrayRuta)
 }
 
-function getCiudad(list, id){
-    var ciudad = -1;
-    list.forEach( obj => {
-        if (id === obj.id) {
-            ciudad = obj
-        }
-    });
-    return ciudad;
-}
-
-function mostrarLista(list){
-    list.forEach( obj => {
-        console.log(obj);
-    });
-}
+algoritmoBusquedaVoraz('Arad', 'Bucarest')

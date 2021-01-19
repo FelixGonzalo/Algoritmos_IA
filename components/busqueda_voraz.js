@@ -1,5 +1,6 @@
-/*Programar el Algoritmo Voraz para el caso H-DLR, considerando la tabla descrita en teoría
-SUG. Almacenar los valores de h(n) y los vecinos de cada ciudad*/
+const resultado = document.getElementById('resultado')
+const form = document.getElementById('form')
+const entrada = document.getElementById('ciudadOrigen')
 
 const arrayCiudades = []
 
@@ -61,38 +62,63 @@ crearVecinos('Urziceni', ciudades = [cBucarest,cVaslui,cHirsova])
 crearVecinos('Vaslui', ciudades = [clasi,cUrziceni])
 crearVecinos('Zerind', ciudades = [cArad,cOradea])
 
+const listaOpciones = () => {
+    entrada.innerHTML = ''
+    arrayCiudades.map((obj) => {
+        entrada.innerHTML += `
+        <option value="${obj.nombre}">${obj.nombre}</option>
+        `
+    })
+}
+listaOpciones()
 
 const algoritmoBusquedaVoraz = (ciudadOrigen = 'desconocido', ciudadDestino = 'desconocido') => {
     const arrayRuta = []
-    let temp = arrayCiudades.filter((obj) => obj.nombre === ciudadOrigen)
-    let objCiudadOrigen = temp[0]
 
-    arrayRuta.push(objCiudadOrigen)
+    try {
+        let temp = arrayCiudades.filter((obj) => obj.nombre === ciudadOrigen)
+        let objCiudadOrigen = temp[0]
 
-    let ciudadElegida = {
-        id: -1,
-        nombre: 'temp',
-        hdlr: 999999999,
-        rutas: []
-    }
+        arrayRuta.push(objCiudadOrigen)
 
-    while (ciudadElegida.nombre !== ciudadDestino) {
-        ciudadElegida = {
-            id: -1,
-            nombre: 'temp',
-            hdlr: 999999999,
-            rutas: []
-        }
+        // let ciudadElegida = {
+        //     id: -1,
+        //     nombre: 'temp',
+        //     hdlr: 999999999,
+        //     rutas: []
+        // }
 
-        arrayRuta[arrayRuta.length - 1 ].rutas.forEach(obj => {
-            if (obj.hdlr < ciudadElegida.hdlr) {
-                ciudadElegida = obj
+        let ciudadElegida = objCiudadOrigen
+
+        while (ciudadElegida.nombre !== ciudadDestino) {
+            ciudadElegida = {
+                id: -1,
+                nombre: 'temp',
+                hdlr: 999999999,
+                rutas: []
             }
-        });
-        arrayRuta.push(ciudadElegida)
-    }
 
-    console.log(arrayRuta)
+            arrayRuta[arrayRuta.length - 1 ].rutas.forEach(obj => {
+                if (obj.hdlr < ciudadElegida.hdlr) {
+                    ciudadElegida = obj
+                }
+            });
+            arrayRuta.push(ciudadElegida)
+        }
+        resultado.innerHTML =''
+        arrayRuta.map((obj) => {
+            resultado.innerHTML += `
+            <li> ${obj.nombre}</li>
+            `
+        })
+    } catch (error) {
+        
+    }
 }
 
-algoritmoBusquedaVoraz('Arad', 'Bucarest')
+form.addEventListener('input', (e) => {
+    e.preventDefault()
+    let ciudadOrigen = entrada.value
+    algoritmoBusquedaVoraz(ciudadOrigen, 'Bucarest')
+})
+

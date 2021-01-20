@@ -8,34 +8,40 @@ h1 {
   text-align: center;
 }
 
-.figuras {
-  display: flex;
-  justify-content: center;
-  gap: 20px;
-  flex-wrap: wrap;
-}
+/* Formulario*/
 
-figure {
-  margin: 0;
-  font-size: 15px;
+label {
   font-weight: bold;
-  text-align: center;
 }
 
-figure img {
-  width: 100%;
-  max-width: 550px;
+.ciudadDestino {
+  font-weight: bold;
+}
+
+/* Resultado */
+
+#distancia {
+  margin-bottom: 5px;
+  font-weight: bold;
+  color: rgb(197, 13, 13);
+}
+
+.distanciaRuta {
+  margin-left: 5px;
+  font-size: 14px;
+  color: rgb(197, 13, 13);
 }
 
 #resultado {
   list-style: none;
   box-sizing: border-box;
+  border-top: 3px solid black;
   border-bottom: 3px solid black;
   height: 40px;
   padding: 0;
-  padding-bottom: 10px;
+  padding-bottom: 50px;
+  padding-top: 10px;
   margin: auto;
-  margin-top: 20px;
   margin-bottom: 20px;
   display: flex;
   gap: 30px;
@@ -69,10 +75,23 @@ figure img {
   padding-right: 40px;
 }
 
-.ciudadDestino {
-  font-weight: bold;
+/* figuras*/
+
+.figuras {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  flex-wrap: wrap;
 }
 
-label {
+figure {
+  margin: 0;
+  font-size: 15px;
   font-weight: bold;
+  text-align: center;
+}
+
+figure img {
+  width: 100%;
+  max-width: 550px;
 }

@@ -1,0 +1,99 @@
+.container {
+  font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
+  box-sizing: border-box;
+  border-top: 5px solid black;
+  max-width: 1200px;
+  margin: auto;
+  padding: 30px 20px;
+}
+
+h1 {
+  margin: 0;
+  margin-bottom: 10px;
+  text-align: center;
+  color: #254458;
+}
+
+/* maquina escribir CSS*/
+
+.maquina-escribir {
+  display: inline;
+  position: relative;
+  background: #f7dd4a;
+  font-size: 20px;
+}
+
+.maquina-escribir::after {
+  content: "";
+  height: 25px;
+  border-left: 4px solid black;
+  background: white;
+  right: 0;
+  position: absolute;
+  animation: maquinaescribir 3s infinite alternate steps(26);
+} /* alternate / backwards */
+
+@keyframes maquinaescribir {
+  from {
+    width: 100%;
+  }
+  to {
+    width: 0;
+  }
+}
+
+.ejercicios {
+  max-width: 500px;
+  text-align: center;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  margin: auto;
+  margin-top: 20px;
+}
+
+.ejercicios li {
+  padding: 10px;
+  margin-bottom: 10px;
+  position: relative;
+  border-left: 3px solid black;
+  border-right: 3px solid black;
+  border-bottom: 1px solid black;
+  border-top: 1px solid black;
+}
+
+.ejercicios li a {
+  text-decoration: none;
+  color: #254458;
+  font-weight: 600;
+}
+
+.ejercicios li::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  right: 50%;
+  width: 0;
+  z-index: -1;
+  background: #e9dede;
+}
+.ejercicios li:hover::after {
+  right: 0;
+  width: 100%;
+  height: 100%;
+  transition: 0.7s;
+}
+
+.footer {
+  box-sizing: border-box;
+  max-width: 1200px;
+  margin: auto;
+  padding: 10px 20px;
+  color: black;
+  font-size: 10px;
+  text-align: center;
+}
+
+.footer p {
+  margin: 5px;
+}

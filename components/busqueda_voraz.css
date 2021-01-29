@@ -1,11 +1,28 @@
-.container {
-  font-family: sans-serif;
-  max-width: 1200px;
-  margin: auto;
+.header {
+  border-top: 5px solid black;
+  text-align: center;
+  margin-bottom: 15px;
+  padding-top: 20px;
 }
 
-h1 {
-  text-align: center;
+.regresar {
+  display: inline-block;
+  font-weight: bold;
+  background: #f7dd4a;
+  padding: 10px;
+  color: black;
+}
+
+h2 {
+  margin: 0;
+  display: inline-block;
+  color: #254458;
+}
+
+.container {
+  font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
+  max-width: 1200px;
+  margin: auto;
 }
 
 /* Formulario*/

@@ -66,6 +66,7 @@ const detenerAlgoritmo = (UltimoeEstadoValidado = []) => {
 const objeto = {
   etiquetas: ['Movistar','Entel','Claro'],
   tope: 0.000001,
+  matriz: [],
   matrizTransicion: [
     [0.6,0.3,0.3],
     [0.2,0.5,0.3],

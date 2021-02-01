@@ -1,6 +1,18 @@
 
 // helpers
 
+const crearMatrizTransicion = (matriz = []) => {
+  let matrizTransicion = JSON.parse( JSON.stringify(matriz) )
+  for (let i = 0; i < matriz.length; i++) {
+    for (let j = 0; j < matriz[i].length; j++) {
+      matrizTransicion[j][i] = matriz[i][j]
+    }
+  }
+  return matrizTransicion
+}
+
+
+
 const matrizTransicionXestado = (matrizTransicion = [], estado = []) => {
   let newEstado = []
   let temp = 0
@@ -66,12 +78,12 @@ const detenerAlgoritmo = (UltimoeEstadoValidado = []) => {
 const objeto = {
   etiquetas: ['Movistar','Entel','Claro'],
   tope: 0.000001,
-  matriz: [],
-  matrizTransicion: [
-    [0.6,0.3,0.3],
-    [0.2,0.5,0.3],
-    [0.2,0.2,0.4]
+  matriz: [
+    [0.6,0.2,0.2],
+    [0.3,0.5,0.2],
+    [0.3,0.3,0.4]
   ],
+  matrizTransicion: [],
   estados:[
     [0.4,0.25,0.35]
   ],
@@ -79,43 +91,19 @@ const objeto = {
   estadosValidados: []
 }
 
-// const objeto = {
-//   etiquetas: ['Movistar','Entel','Claro'],
-//   tope: 0.000001,
-//   matrizTransicion: [
-//     [0.0,0.75,1],
-//     [0.5,0.0,0],
-//     [0.5,0.25,0]
-//   ],
-//   estados:[
-//     [0.4,0.5,0.1]
-//   ],
-//   estadosRestas: [],
-//   estadosValidados: []
-// }
+objeto.matrizTransicion = crearMatrizTransicion(objeto.matriz)
 
-// algoritmo
-// let cont = 0
-// objeto.estadosValidados.push(validarTope(objeto.estados[objeto.estados.length - 1], objeto.estados[objeto.estados.length - 2], objeto.tope)) 
-// while (detenerAlgoritmo(objeto.estadosValidados[objeto.estadosValidados.length - 1]) && cont < 100) {
-//   objeto.estados.push(matrizTransicionXestado(objeto.matrizTransicion, objeto.estados[objeto.estados.length - 1]))
-//   objeto.estadosValidados.push(validarTope(objeto.estados[objeto.estados.length - 1],objeto.estados[objeto.estados.length - 2], objeto.tope)) 
-//   cont = cont + 1
-// }
-
-// console.log(objeto)
-
-
-let cont = 0
-
-objeto.estadosRestas.push(restarEstados(objeto.estados[objeto.estados.length - 1], objeto.estados[objeto.estados.length - 2]))
-objeto.estadosValidados.push(validarTope2(objeto.estadosRestas[objeto.estadosRestas.length - 1], objeto.tope))
-
-while (detenerAlgoritmo(objeto.estadosValidados[objeto.estadosValidados.length - 1]) && cont < 100) {
-  objeto.estados.push(matrizTransicionXestado(objeto.matrizTransicion, objeto.estados[objeto.estados.length - 1]))
+const ejecutarAlgoritmo = () => {
+  let cont = 0
   objeto.estadosRestas.push(restarEstados(objeto.estados[objeto.estados.length - 1], objeto.estados[objeto.estados.length - 2]))
   objeto.estadosValidados.push(validarTope2(objeto.estadosRestas[objeto.estadosRestas.length - 1], objeto.tope))
-  cont = cont + 1
+
+  while (detenerAlgoritmo(objeto.estadosValidados[objeto.estadosValidados.length - 1]) && cont < 100) {
+    objeto.estados.push(matrizTransicionXestado(objeto.matrizTransicion, objeto.estados[objeto.estados.length - 1]))
+    objeto.estadosRestas.push(restarEstados(objeto.estados[objeto.estados.length - 1], objeto.estados[objeto.estados.length - 2]))
+    objeto.estadosValidados.push(validarTope2(objeto.estadosRestas[objeto.estadosRestas.length - 1], objeto.tope))
+    cont = cont + 1
+  }
+  console.log(objeto)
 }
 
-console.log(objeto)

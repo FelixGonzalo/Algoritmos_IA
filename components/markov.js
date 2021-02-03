@@ -91,6 +91,9 @@ const objeto = {
   estadosValidados: []
 }
 
+
+
+// Algoritmo
 objeto.matrizTransicion = crearMatrizTransicion(objeto.matriz)
 
 const ejecutarAlgoritmo = () => {
@@ -107,3 +110,16 @@ const ejecutarAlgoritmo = () => {
   console.log(objeto)
 }
 
+// helpers para UI
+
+const imprimirMatriz = (array = [], etiquetasColumnas = [], etiquetasFilas = []) => {
+
+}
+
+const imprimirTope = () => {
+
+}
+
+const imprimirEstado = () => {
+  
+}

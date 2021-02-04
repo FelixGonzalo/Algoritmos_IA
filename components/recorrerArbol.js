@@ -1,17 +1,19 @@
-
 class Arbol {
   constructor(nodo){
     this.raiz = nodo
     this.condiciones = []
-    this.cantCond = 0;
+    this.cantCond = 0
+    this.cantSi = 0
+    this.cantNo = 0
   }
 
   addCondiciones(condiciones = []){
     this.condiciones = condiciones
   }
 
-  recorrer(nodo = null){
-    if (nodo !== null) {   
+  recorrer(nodo){
+    if (nodo !== null) {
+      // en Java Scanner   
       nodo.hijos.forEach(obj => {
         if (obj.condicion === condiciones[this.cantCond]) {
           this.cantCond++
@@ -19,6 +21,35 @@ class Arbol {
           this.recorrer(obj)
         }
       });
+    }
+  }
+
+  recorrerMasEntropia(nodo){
+    if (nodo !== null) {
+      for (let i = 0; i < nodo.hijos.length; i++) {
+        console.log(nodo.hijos[i].condicion + " - " + nodo.hijos[i].contenido)
+        switch (nodo.hijos[i].contenido) {
+          case 'No':
+              this.cantNo++
+            break;
+          case 'Si':
+              this.cantSi++
+            break;
+          default:
+            break;
+        }
+        this.recorrerMasEntropia(nodo.hijos[i])
+      }
+    }
+  }
+
+  getEntropia(cantSi = 0,cantNo = 0){
+    if (cantSi === 0 || cantNo === 0) {
+      return 0
+    } else {
+      let a = cantSi/(cantSi+cantNo)
+      let b = cantNo/(cantSi+cantNo)
+      return -a*Math.log2(a)-b*Math.log2(b)
     }
   }
 }
@@ -64,18 +95,7 @@ n7.addHijos(nodos = [n16,n11])
 n11.addHijos(nodos = [n16,n13])
 n13.addHijos(nodos = [n14,n15])
 
-//para probar
-// const crearCaso = () => {
-//   let caso = {
-//     '¿Cliente?':
-//     '¿TiempoEsperaEstimado?';
-//     '¿Alternativa?':
-//     '¿Reserva?':
-//     '¿Vier?'
-//   }
-// }
-
-
+// las opciones del usuario ya se conocen para ejecutar el algoritmo
 const c1 = ['Ninguno','>60','']
 const c2 = ['Algunos','>60','']
 const c3 = ['Lleno','>60']
@@ -84,4 +104,8 @@ const c5 = ['Lleno','10-30','Si','Si','No']
 
 const miArbol = new Arbol(n1)
 miArbol.addCondiciones(condiciones=c5)
+console.log('----recorrido de un caso------')
 miArbol.recorrer(miArbol.raiz)
+console.log('----Calcular cantidad de Si y No------')
+miArbol.recorrerMasEntropia(miArbol.raiz)
+console.log('entropia: ' + miArbol.getEntropia(miArbol.cantSi,miArbol.cantNo))

@@ -1,10 +1,14 @@
 /* maquina escribir CSS*/
 
 .maquina-escribir {
-  display: inline;
   position: relative;
   background: #f7dd4a;
   font-size: 20px;
+}
+
+p {
+  text-align: center;
+  margin: 5px;
 }
 
 .maquina-escribir::after {
@@ -15,7 +19,7 @@
   right: 0;
   position: absolute;
   animation: maquinaescribir 3s infinite alternate steps(26);
-} /* alternate / backwards */
+}
 
 @keyframes maquinaescribir {
   from {
@@ -75,9 +79,4 @@
   padding: 10px 20px;
   color: black;
   font-size: 10px;
-  text-align: center;
-}
-
-.footer p {
-  margin: 5px;
 }

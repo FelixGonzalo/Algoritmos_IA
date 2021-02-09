@@ -10,19 +10,19 @@ label {
 
 /* Resultado */
 
-#distancia {
+#resultado_distancia {
   margin-bottom: 5px;
   font-weight: bold;
   color: rgb(197, 13, 13);
 }
 
 .distanciaRuta {
-  margin-left: 5px;
+  margin-left: 20px;
   font-size: 14px;
   color: rgb(197, 13, 13);
 }
 
-#resultado {
+#resultado_ruta {
   list-style: none;
   box-sizing: border-box;
   border-top: 3px solid black;
@@ -39,14 +39,14 @@ label {
   overflow-x: auto;
 }
 
-#resultado li {
+#resultado_ruta li {
   font-weight: bold;
   font-size: 20px;
   padding: 0;
   position: relative;
 }
 
-#resultado li:before {
+#resultado_ruta li:before {
   content: "";
   width: 9px;
   height: 9px;
@@ -57,11 +57,11 @@ label {
   position: absolute;
 }
 
-#resultado li:first-child {
+#resultado_ruta li:first-child {
   margin-left: 40px;
 }
 
-#resultado li:last-child {
+#resultado_ruta li:last-child {
   padding-right: 40px;
 }
 

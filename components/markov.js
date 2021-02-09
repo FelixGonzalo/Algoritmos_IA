@@ -11,8 +11,6 @@ const crearMatrizTransicion = (matriz = []) => {
   return matrizTransicion
 }
 
-
-
 const matrizTransicionXestado = (matrizTransicion = [], estado = []) => {
   let newEstado = []
   let temp = 0
@@ -46,22 +44,6 @@ const validarTope2 = (estadoResta = [], tope = 0.0001) => {
   return newEstadoValidado
 }
 
-const validarTope = (estadoFinal = [], estadoAnterior = [], tope = 0.0001) => {
-  let newEstadoValidado = []
-  let estadoTemp = []
-  for (let i = 0; i < estadoFinal.length; i++) {
-    estadoTemp.push(estadoFinal[i]-estadoAnterior[i])
-  }
-  for (let i = 0; i < estadoTemp.length; i++) {
-    if (estadoTemp[i] < tope) {
-      newEstadoValidado.push(false)
-    } else {
-      newEstadoValidado.push(true)
-    }
-  }
-  return newEstadoValidado
-}
-
 const detenerAlgoritmo = (UltimoeEstadoValidado = []) => {
   if (UltimoeEstadoValidado.length === 0 ) {
     return true
@@ -75,33 +57,31 @@ const detenerAlgoritmo = (UltimoeEstadoValidado = []) => {
   }
 }
 
-const objeto = {
-  etiquetas: ['Movistar','Entel','Claro'],
-  tope: 0.000001,
-  matriz: [
-    [0.6,0.2,0.2],
-    [0.3,0.5,0.2],
-    [0.3,0.3,0.4]
-  ],
-  matrizTransicion: [],
-  estados:[
-    [0.4,0.25,0.35]
-  ],
-  estadosRestas: [],
-  estadosValidados: []
-}
 
-
+  const objeto = {
+    etiquetas: ['','',''],
+    tope: 0.000000001,
+    matriz: [
+      [0,0.5,0.5],
+      [0.75,0,0.25],
+      [1,0,0]
+    ],
+    matrizTransicion: [],
+    estados:[
+      [0.4,0.5,0.1],
+    ],
+    estadosRestas: [],
+    estadosValidados: []
+  }
 
 // Algoritmo
 objeto.matrizTransicion = crearMatrizTransicion(objeto.matriz)
-
 const ejecutarAlgoritmo = () => {
   let cont = 0
   objeto.estadosRestas.push(restarEstados(objeto.estados[objeto.estados.length - 1], objeto.estados[objeto.estados.length - 2]))
   objeto.estadosValidados.push(validarTope2(objeto.estadosRestas[objeto.estadosRestas.length - 1], objeto.tope))
 
-  while (detenerAlgoritmo(objeto.estadosValidados[objeto.estadosValidados.length - 1]) && cont < 100) {
+  while (detenerAlgoritmo(objeto.estadosValidados[objeto.estadosValidados.length - 1]) && cont < 500) {
     objeto.estados.push(matrizTransicionXestado(objeto.matrizTransicion, objeto.estados[objeto.estados.length - 1]))
     objeto.estadosRestas.push(restarEstados(objeto.estados[objeto.estados.length - 1], objeto.estados[objeto.estados.length - 2]))
     objeto.estadosValidados.push(validarTope2(objeto.estadosRestas[objeto.estadosRestas.length - 1], objeto.tope))
@@ -109,7 +89,7 @@ const ejecutarAlgoritmo = () => {
   }
   console.log(objeto)
 }
-
+ejecutarAlgoritmo()
 // helpers para UI
 
 const imprimirMatriz = (array = [], etiquetasColumnas = [], etiquetasFilas = []) => {
@@ -123,3 +103,63 @@ const imprimirTope = () => {
 const imprimirEstado = () => {
   
 }
+
+/*
+  const objeto = {
+    etiquetas: ['Movistar','Entel','Claro'],
+    tope: 0.000001,
+    matriz: [
+      [0.6,0.2,0.2],
+      [0.3,0.5,0.2],
+      [0.3,0.3,0.4]
+    ],
+    matrizTransicion: [],
+    estados:[
+      [0.4,0.25,0.35],
+    ],
+    estadosRestas: [],
+    estadosValidados: []
+  }
+*/
+
+/*
+const objeto = {
+  etiquetas: ['','',''],
+  tope: 0.00001,
+  matriz: [
+    [0,0.5,0.5],
+    [0.75,0,0.25],
+    [1,0,0]
+  ],
+  matrizTransicion: [],
+  estados:[
+    [0.4,0.25,0.35],
+  ],
+  estadosRestas: [],
+  estadosValidados: []
+}
+
+
+
+*/
+
+
+/*
+
+const objeto = {
+  etiquetas: ['',''],
+  tope: 0.00001,
+  matriz: [
+    [0.15,0.85],
+    [0.45,0.55],
+  ],
+  matrizTransicion: [],
+  estados:[
+    [0.25,0.75],
+  ],
+  estadosRestas: [],
+  estadosValidados: []
+}
+
+
+*/

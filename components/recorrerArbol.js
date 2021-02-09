@@ -96,10 +96,10 @@ n11.addHijos(nodos = [n16,n13])
 n13.addHijos(nodos = [n14,n15])
 
 // las opciones del usuario ya se conocen para ejecutar el algoritmo
-const c1 = ['Ninguno','>60','']
-const c2 = ['Algunos','>60','']
-const c3 = ['Lleno','>60']
-const c4 = ['Lleno','10-30','No']
+// const c1 = ['Ninguno','>60','']
+// const c2 = ['Algunos','>60','']
+// const c3 = ['Lleno','>60']
+// const c4 = ['Lleno','10-30','No']
 const c5 = ['Lleno','10-30','Si','Si','No']
 
 const miArbol = new Arbol(n1)

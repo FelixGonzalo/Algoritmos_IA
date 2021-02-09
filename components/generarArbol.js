@@ -186,71 +186,53 @@ while (i < 1) {
 
 console.log(resultado)
 
-// //calculando primer atributo: Lluvioso
-//  cantSi = 0 
-//  cantNo = 0
-//  cantTotal =  0
-//  entropiaSistema = 0
+//calculando primer atributo: Lluvioso
+console.log('calculando primer atributo: Lluvioso')
+ cantSi = 0 
+ cantNo = 0
+ cantTotal =  0
+ entropiaSistema = 0
 
-// dataSet.registros.forEach(
-//   obj => obj.pasear === 'si' && obj.clima === 'lluvioso' ? 
-//   cantSi++ : 
-//   obj.pasear === 'no' && obj.clima === 'lluvioso' ? 
-//   cantNo++ : ''
-// ); // calcular cantidad de SI y NO
+dataSet.registros.forEach(
+  obj => obj.pasear === 'si' && obj.clima === 'lluvioso' ? 
+  cantSi++ : 
+  obj.pasear === 'no' && obj.clima === 'lluvioso' ? 
+  cantNo++ : ''
+); // calcular cantidad de SI y NO
 
-// cantTotal = cantSi + cantNo
-// entropiaSistema = getEntropia(cantSi,cantNo,cantTotal)
-// console.log(dataSet)
-// console.log(cantSi)
-// console.log(cantNo)
-// console.log(entropiaSistema)
+cantTotal = cantSi + cantNo
+entropiaSistema = getEntropia(cantSi,cantNo,cantTotal)
+console.log(dataSet)
+console.log(cantSi)
+console.log(cantNo)
+console.log(entropiaSistema)
 
-// //calculando primer atributo: NUBLADO
-//  cantSi = 0 
-//  cantNo = 0
-//  cantTotal =  0
-//  entropiaSistema = 0
-
-
-// dataSet.registros.forEach(
-//   obj => obj.pasear === 'si' && obj.clima === 'nublado' ? 
-//   cantSi++ : 
-//   obj.pasear === 'no' && obj.clima === 'nublado' ? 
-//   cantNo++ : ''
-// ); // calcular cantidad de SI y NO
-
-// cantTotal = cantSi + cantNo
-// entropiaSistema = getEntropia(cantSi,cantNo,cantTotal)
-// console.log(dataSet)
-// console.log(cantSi)
-// console.log(cantNo)
-// console.log(entropiaSistema)
-
-// //calculando primer atributo: Soleado
-//  cantSi = 0 
-//  cantNo = 0
-//  cantTotal =  0
-//  entropiaSistema = 0
+//calculando primer atributo: NUBLADO
+console.log('calculando primer atributo: NUBLADO')
+ cantSi = 0 
+ cantNo = 0
+ cantTotal =  0
+ entropiaSistema = 0
 
 
-// dataSet.registros.forEach(
-//   obj => obj.pasear === 'si' && obj.clima === 'soleado' ? 
-//   cantSi++ : 
-//   obj.pasear === 'no' && obj.clima === 'soleado' ? 
-//   cantNo++ : ''
-// ); // calcular cantidad de SI y NO
+dataSet.registros.forEach(
+  obj => obj.pasear === 'si' && obj.clima === 'nublado' ? 
+  cantSi++ : 
+  obj.pasear === 'no' && obj.clima === 'nublado' ? 
+  cantNo++ : ''
+); // calcular cantidad de SI y NO
 
-// cantTotal = cantSi + cantNo
-// entropiaSistema = getEntropia(cantSi,cantNo,cantTotal)
-// console.log(dataSet)
-// console.log(cantSi)
-// console.log(cantNo)
-// console.log(entropiaSistema)
+cantTotal = cantSi + cantNo
+entropiaSistema = getEntropia(cantSi,cantNo,cantTotal)
+console.log(dataSet)
+console.log(cantSi)
+console.log(cantNo)
+console.log(entropiaSistema)
 
 
 
 //calculando primer atributo 2: Soleado
+console.log('calculando primer atributo 2: Soleado')
  cantSi = 0 
  cantNo = 0
  cantTotal =  0

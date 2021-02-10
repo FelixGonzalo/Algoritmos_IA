@@ -90,24 +90,20 @@ const algoritmoBusquedaVoraz = (ciudadOrigen = 'nombre', ciudadDestino = 'nombre
     let sumaCaminos = 0
     let ciudadActual = mapaRutas.filter((obj) => obj.nombre === ciudadOrigen)[0]
     let caminoActual = 0
+    let ciudadElegida = null
+    let cont = -1
     arrayRuta.push(ciudadActual)
     while (ciudadActual.nombre !== ciudadDestino) {
-        caminoActual = 0
-        ciudadActual = {
-            id: -1,
-            nombre: 'temporal',
-            hdlr: 999999999,
-            vecinos: [],
-            caminos: []
-        }
-        let cont = -1
-        arrayRuta[arrayRuta.length - 1].vecinos.forEach(obj => {
+        ciudadElegida = crearCiudad(-1,'temporal',999999)
+        cont = -1
+        ciudadActual.vecinos.forEach(obj => {
             cont++
-            if (obj.hdlr < ciudadActual.hdlr) {
-                ciudadActual = obj
-                caminoActual = arrayRuta[arrayRuta.length - 1].caminos[cont]
+            if (obj.hdlr < ciudadElegida.hdlr) {
+                caminoActual = ciudadActual.caminos[cont]
+                ciudadElegida = obj 
             }
         });
+        ciudadActual = ciudadElegida
         arrayRuta.push(ciudadActual)
         caminos.push(caminoActual)
         sumaCaminos += caminoActual

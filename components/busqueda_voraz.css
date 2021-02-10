@@ -69,8 +69,8 @@ label {
 
 .figuras {
   display: flex;
-  justify-content: center;
-  gap: 20px;
+  justify-content: space-evenly;
+  gap: 5px;
   flex-wrap: wrap;
 }
 
@@ -79,6 +79,7 @@ figure {
   font-size: 15px;
   font-weight: bold;
   text-align: center;
+  width: 450px;
 }
 
 figure img {

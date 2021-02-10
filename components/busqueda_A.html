@@ -1,14 +1,12 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html lang="es">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="../header.css">
-  <link rel="stylesheet" href="markov.css">
+  <link rel="stylesheet" href="busqueda_voraz.css">
   <title>Inteligencia Artificial</title>
 </head>
-
 <body>
   <div class="container">
     <div class="header">
@@ -16,8 +14,26 @@
       <h2>Algoritmo de búsqueda A*</h2>
       <a class="regresar" href="../index.html">Regresar</a>
     </div>
+    <div id="form">
+      <label for="ciudadOrigen">Ciudad de Origen:</label>
+      <select id="ciudadOrigen"></select>
+      <p><span class="ciudadDestino">Ciudad de destino:</span> Bucarest</p>
+    </div>
+    <p id="resultado_distancia">
+      Distancia:
+    </p>
+    <ul id="resultado_ruta">
+    </ul>
+    <section class="figuras">
+      <figure>
+        <figcaption>Mapa de rutas</figcaption>
+        <img src="../img/mapa_rutas.JPG" alt="mapa de rutas" width="400px">
+      </figure>
+      <figure>
+        <img src="../img/tabla_hdlr_bucarest.JPG" alt="mapa de rutas" width="400px">
+      </figure>
+    </section>
   </div>
   <script src="busqueda_A.js"></script>
 </body>
-
 </html>

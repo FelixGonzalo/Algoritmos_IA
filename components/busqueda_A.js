@@ -84,7 +84,13 @@ const imprimirRuta = (arrayRuta, caminos, sumaCaminos) => {
     resultadoDistancia.innerHTML = `Distancia: ${sumaCaminos}`
 }
 
-const algoritmoBusquedaVoraz = (ciudadOrigen = 'nombre', ciudadDestino = 'nombre') => {
+const getCantExistenciasEnRuta = (arrayRuta = [], idCiudad = -1 ) => {
+    let cont = -1
+    arrayRuta.forEach(obj => { if (idCiudad === obj.id) cont++ })
+    return cont
+}
+
+const algoritmoBusquedaA = (ciudadOrigen = 'nombre', ciudadDestino = 'nombre') => {
     let arrayRuta = []
     let caminos = []
     let sumaCaminos = 0
@@ -95,14 +101,19 @@ const algoritmoBusquedaVoraz = (ciudadOrigen = 'nombre', ciudadDestino = 'nombre
     arrayRuta.push(ciudadActual)
     while (ciudadActual.nombre !== ciudadDestino) {
         ciudadElegida = crearCiudad(-1,'temporal',999999)
+        caminoActual = 999999
         cont = -1
         ciudadActual.vecinos.forEach(obj => {
             cont++
-            if (obj.hdlr < ciudadElegida.hdlr) {
+            if (ciudadActual.caminos[cont] + obj.hdlr < caminoActual + ciudadElegida.hdlr ) {
                 caminoActual = ciudadActual.caminos[cont]
                 ciudadElegida = obj 
             }
         });
+        if (getCantExistenciasEnRuta(arrayRuta,ciudadActual.id) > 3) {
+            alert('Bucle encontrado por ' + ciudadActual.nombre)
+            break;
+        }
         ciudadActual = ciudadElegida
         arrayRuta.push(ciudadActual)
         caminos.push(caminoActual)
@@ -113,5 +124,5 @@ const algoritmoBusquedaVoraz = (ciudadOrigen = 'nombre', ciudadDestino = 'nombre
 
 crearMapaRutas()
 imprimirListaOpcionesOrigen()
-form.addEventListener('input', () => algoritmoBusquedaVoraz(selectOrigen.value, 'Bucarest'))
+form.addEventListener('input', () => algoritmoBusquedaA(selectOrigen.value, 'Bucarest'))
 console.log(mapaRutas)

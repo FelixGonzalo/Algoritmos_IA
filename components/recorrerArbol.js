@@ -1,33 +1,33 @@
 class Arbol {
   constructor(nodo){
     this.raiz = nodo
-    this.condiciones = []
-    this.cantCond = 0
+    this.conjDecisiones = []
+    this.contDecisiones = 0
     this.cantSi = 0
     this.cantNo = 0
   }
 
-  addCondiciones(condiciones = []){
-    this.condiciones = condiciones
+  addConjDecisiones(conjDecisiones){
+    this.conjDecisiones = conjDecisiones
   }
 
-  recorrer(nodo){
+  recorrerConjDecisiones(nodo){
     if (nodo !== null) {
       // en Java Scanner   
       nodo.hijos.forEach(obj => {
-        if (obj.condicion === condiciones[this.cantCond]) {
-          this.cantCond++
+        if (obj.condicion === conjDecisiones[this.contDecisiones]) {
+          this.contDecisiones++
           console.log(obj.condicion + " - " + obj.contenido)
-          this.recorrer(obj)
+          this.recorrerConjDecisiones(obj)
         }
       });
     }
   }
 
-  recorrerMasEntropia(nodo){
+  recorrerYcalcularCantSiNo(nodo){
     if (nodo !== null) {
       for (let i = 0; i < nodo.hijos.length; i++) {
-        console.log(nodo.hijos[i].condicion + " - " + nodo.hijos[i].contenido)
+        // console.log(nodo.hijos[i].condicion + " - " + nodo.hijos[i].contenido)
         switch (nodo.hijos[i].contenido) {
           case 'No':
               this.cantNo++
@@ -35,10 +35,8 @@ class Arbol {
           case 'Si':
               this.cantSi++
             break;
-          default:
-            break;
         }
-        this.recorrerMasEntropia(nodo.hijos[i])
+        this.recorrerYcalcularCantSiNo(nodo.hijos[i])
       }
     }
   }
@@ -95,17 +93,32 @@ n7.addHijos(nodos = [n16,n11])
 n11.addHijos(nodos = [n16,n13])
 n13.addHijos(nodos = [n14,n15])
 
-// las opciones del usuario ya se conocen para ejecutar el algoritmo
-// const c1 = ['Ninguno','>60','']
-// const c2 = ['Algunos','>60','']
-// const c3 = ['Lleno','>60']
-// const c4 = ['Lleno','10-30','No']
-const c5 = ['Lleno','10-30','Si','Si','No']
+const select_opcionesRecorrido = document.getElementById('opciones_recorrido')
+const resultado_recorrido = document.getElementById('resultado_recorrido')
+
+const imprimirListaOpcionesRecorrido = (nodo) => {
+    select_opcionesRecorrido.innerHTML = ''
+    nodo.hijos.map(obj => select_opcionesRecorrido.innerHTML += `<option value="${obj.condicion}">${obj.condicion}</option>`)
+}
+
+const imprimirRecorridoPasoApaso = () => {
+
+}
+
+
+
+select_opcionesRecorrido.addEventListener('input', () => console.log(select_opcionesRecorrido.value))
+
 
 const miArbol = new Arbol(n1)
-miArbol.addCondiciones(condiciones=c5)
-console.log('----recorrido de un caso------')
-miArbol.recorrer(miArbol.raiz)
-console.log('----Calcular cantidad de Si y No------')
-miArbol.recorrerMasEntropia(miArbol.raiz)
+
+
+imprimirListaOpcionesRecorrido(miArbol.raiz)
+
+console.log('----Recorrido del árbol de decisiones------')
+const conjDecisiones = ['Lleno','10-30','Si','Si','No']
+miArbol.addConjDecisiones(conjDecisiones)
+miArbol.recorrerConjDecisiones(miArbol.raiz)
+console.log('---- Obtener entropía ------')
+miArbol.recorrerYcalcularCantSiNo(miArbol.raiz)
 console.log('entropia: ' + miArbol.getEntropia(miArbol.cantSi,miArbol.cantNo))

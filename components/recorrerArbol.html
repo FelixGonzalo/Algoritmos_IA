@@ -4,14 +4,43 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="../header.css">
-  <title>Document</title>
+  <link rel="stylesheet" href="recorrerArbol.css">
+  <title>Inteligencia Artificial</title>
 </head>
 <body>
   <div class="container">
     <div class="header">
       <h1>Inteligencia Artificial</h1>
-      <h2>Recorrido de un árbol</h2>
+      <h2>Recorrer árbol de decisión</h2>
       <a class="regresar" href="../index.html">Regresar</a>
+    </div>
+    <div class="resultado">
+      <div id="container-recorrido">
+        <h3>Recorrer el árbol</h3>
+        <select id="opciones_recorrido">
+          <option value="dato">dato</option>
+          <option value="amor">amor</option>
+        </select>
+        <ul id="resultado_recorrido">
+          <li>recorrido</li>
+          <li>recorrido</li>
+        </ul>
+        <!-- <div id="container-entropia">
+          <button id="obtener_entropia">Obtener Entropía</button>
+          <ul>
+            <li>recorrido</li>
+            <li>recorrido</li>
+            <li>recorrido</li>
+            <li>recorrido</li>
+          </ul>
+          <div class="entropia-datos">
+            <p>Cantidad de Sí:</p>
+            <p>Cantidad de No:</p>
+            <p>Entropía:</p>
+          </div>
+        </div> -->
+      </div>
+      <img src="../img/ArbolDecision_DecidirEsperarPorMesa.JPG" alt="mapa de rutas" width="400px">
     </div>
   </div>
   <script src="recorrerArbol.js"></script>

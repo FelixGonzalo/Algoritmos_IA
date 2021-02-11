@@ -1,0 +1,36 @@
+.resultado {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+#container-recorrido {
+  background: rgb(218, 228, 238);
+  border: 2px solid rgb(201, 201, 202);
+  width: 400px;
+  height: 400px;
+  padding: 20px;
+}
+
+h3 {
+  text-align: center;
+  letter-spacing: 1px;
+}
+
+#obtener_entropia {
+  padding: 5px;
+}
+
+.entropia-datos {
+  font-size: 15px;
+}
+
+/* figuras*/
+
+img {
+  width: 100%;
+  width: 500px;
+  margin: -7px;
+  height: 460px;
+}

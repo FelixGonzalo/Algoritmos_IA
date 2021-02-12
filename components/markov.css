@@ -1,0 +1,40 @@
+.subcontainer {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+#form {
+  width: 150px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 10px;
+}
+
+#form label {
+  color: #042041;
+}
+
+#form button {
+  padding: 10px;
+  font-weight: bold;
+  border: 2px solid #042041;
+  color: #042041;
+}
+
+#resultado {
+  border-left: 2px solid red;
+  padding: 10px;
+  padding-left: 30px;
+}
+
+#resultado_estados {
+  padding: 0px;
+  list-style: none;
+}
+
+#resultado_estados li {
+  margin: 5px;
+}

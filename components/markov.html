@@ -14,8 +14,26 @@
       <h2>Algoritmo de búsqueda voraz</h2>
       <a class="regresar" href="../index.html">Regresar</a>
     </div>
+    <div class="subcontainer">
+      <form id="form">
+        <label for="matriz">Matriz inicial:</label>
+        <textarea name="" cols="15" rows="4" id="matriz" placeholder="[0.6,0.2,0.2],[0.3,0.5,0.2],[0.3,0.3,0.4]"></textarea>
+        <label for="estado_inicial">Estado inicial:</label>
+        <input type="text" id="estado_inicial" placeholder="0.4,0.25,0.35">
+        <label for="tope">Tope:</label>
+        <input type="text" id="tope" placeholder="0.000001">
+        <label for="llaveSeguridad">Llave de seguridad:</label>
+        <input type="text" id="llaveSeguridad" placeholder="500">
+        <button>Calcular</button>
+      </form>
+      <div id="resultado">
+        <p>Matriz de Transición</p>
+        <div id="resultado_matrizTransicion"></div>
+        <p>Estados</p>
+        <ul id="resultado_estados"></ul>
+      </div>
+    </div>
   </div>
-  <button onclick="ejecutarAlgoritmo()">ejecutar</button>
   <script src="markov.js"></script>
 </body>
 </html>

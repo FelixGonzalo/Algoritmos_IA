@@ -1,6 +1,3 @@
-
-// helpers
-
 const crearMatrizTransicion = (matriz = []) => {
   let matrizTransicion = JSON.parse( JSON.stringify(matriz) )
   for (let i = 0; i < matriz.length; i++) {
@@ -57,109 +54,114 @@ const detenerAlgoritmo = (UltimoeEstadoValidado = []) => {
   }
 }
 
+const verificarSuma = (arreglo = []) => {
+  let suma = 0
+  let estado = true
+  arreglo.forEach(obj => {
+    suma = 0
+    obj.forEach(dato => {
+      suma+=dato
+    });
+    if (suma !== 1) {
+      estado = false
+    } 
+  });
+  return estado
+}
 
-  const objeto = {
-    etiquetas: ['','',''],
-    tope: 0.000000001,
-    matriz: [
-      [0,0.5,0.5],
-      [0.75,0,0.25],
-      [1,0,0]
-    ],
+const crearCaso = (matriz = [[0.6,0.2,0.2],[0.3,0.5,0.2],[0.3,0.3,0.4]], estadoInicial = [0.4,0.25,0.35], tope = 0.000001) => {
+  let caso = {
+    tope: tope,
+    matriz: matriz,
     matrizTransicion: [],
     estados:[
-      [0.4,0.5,0.1],
+      estadoInicial
     ],
     estadosRestas: [],
     estadosValidados: []
   }
-
-// Algoritmo
-objeto.matrizTransicion = crearMatrizTransicion(objeto.matriz)
-const ejecutarAlgoritmo = () => {
-  let cont = 0
-  objeto.estadosRestas.push(restarEstados(objeto.estados[objeto.estados.length - 1], objeto.estados[objeto.estados.length - 2]))
-  objeto.estadosValidados.push(validarTope2(objeto.estadosRestas[objeto.estadosRestas.length - 1], objeto.tope))
-
-  while (detenerAlgoritmo(objeto.estadosValidados[objeto.estadosValidados.length - 1]) && cont < 500) {
-    objeto.estados.push(matrizTransicionXestado(objeto.matrizTransicion, objeto.estados[objeto.estados.length - 1]))
-    objeto.estadosRestas.push(restarEstados(objeto.estados[objeto.estados.length - 1], objeto.estados[objeto.estados.length - 2]))
-    objeto.estadosValidados.push(validarTope2(objeto.estadosRestas[objeto.estadosRestas.length - 1], objeto.tope))
-    cont = cont + 1
-  }
-  console.log(objeto)
+  return caso
 }
-ejecutarAlgoritmo()
+
+const algoritmoMarkov = (caso, llaveSeguridad) => {
+  if (!verificarSuma(caso.matriz)) {
+    alert("Las filas de la matriz no suman 1")
+  } else if (!verificarSuma(caso.estados)){
+    alert("El estado inicial no suma 1")
+  } else {
+    caso.matrizTransicion = crearMatrizTransicion(caso.matriz)
+    caso.estadosRestas.push(restarEstados(caso.estados[caso.estados.length - 1], caso.estados[caso.estados.length - 2]))
+    caso.estadosValidados.push(validarTope2(caso.estadosRestas[caso.estadosRestas.length - 1], caso.tope))
+    let cont = 0
+    while (detenerAlgoritmo(caso.estadosValidados[caso.estadosValidados.length - 1]) && cont < llaveSeguridad) {
+      caso.estados.push(matrizTransicionXestado(caso.matrizTransicion, caso.estados[caso.estados.length - 1]))
+      caso.estadosRestas.push(restarEstados(caso.estados[caso.estados.length - 1], caso.estados[caso.estados.length - 2]))
+      caso.estadosValidados.push(validarTope2(caso.estadosRestas[caso.estadosRestas.length - 1], caso.tope))
+      cont++
+    }
+  }
+}
+
 // helpers para UI
 
-const imprimirMatriz = (array = [], etiquetasColumnas = [], etiquetasFilas = []) => {
-
-}
-
-const imprimirTope = () => {
-
-}
-
-const imprimirEstado = () => {
+const imprimirMatriz = (matriz = [], etiqueta) => {
+  etiqueta.innerHTML = ''
+  matriz.forEach(obj => {
+    obj.forEach(i => {
+      etiqueta.innerHTML += i + ' | '
+    });
+    etiqueta.innerHTML += '<br/>'
+  });
   
+
 }
 
-/*
-  const objeto = {
-    etiquetas: ['Movistar','Entel','Claro'],
-    tope: 0.000001,
-    matriz: [
-      [0.6,0.2,0.2],
-      [0.3,0.5,0.2],
-      [0.3,0.3,0.4]
-    ],
-    matrizTransicion: [],
-    estados:[
-      [0.4,0.25,0.35],
-    ],
-    estadosRestas: [],
-    estadosValidados: []
+const imprimirEstados = (estados = [], etiqueta) => {
+  etiqueta.innerHTML = ''
+  let cont = 0
+  estados.forEach(obj => {
+    let temp = ''
+    obj.forEach(i => {
+      temp += i.toFixed(6) + ' | '
+    })
+    etiqueta.innerHTML += `<li>
+      P${cont < 10 ? '0' + cont : cont} :
+      ${temp}
+    </li>
+    `
+    cont++
+  });
+}
+
+const resultado_matrizTransicion = document.getElementById('resultado_matrizTransicion')
+const resultado_estados = document.getElementById('resultado_estados')
+const form = document.getElementById('form')
+form.addEventListener("submit", (e) => {
+  e.preventDefault()
+  try {
+    let miCaso = null
+    if (e.target.matriz.value === '' && e.target.estado_inicial.value === '' && e.target.tope.value === '') {
+      miCaso = crearCaso()
+    } else {
+      let matriz = JSON.parse(`[${e.target.matriz.value}]`);
+      let estadoInicial = JSON.parse(`[${e.target.estado_inicial.value}]`);
+      let tope = e.target.tope.value
+      if (tope === '') {
+        miCaso = crearCaso(matriz,estadoInicial)
+      } else {
+        miCaso = crearCaso(matriz,estadoInicial,parseFloat(tope))
+      }
+    }
+    let llaveSeguridad = e.target.llaveSeguridad.value
+    console.log(llaveSeguridad)
+    if (llaveSeguridad === '' ) {
+      llaveSeguridad = 500
+    }
+    algoritmoMarkov(miCaso,llaveSeguridad)
+    console.log(miCaso)
+    imprimirMatriz(miCaso.matrizTransicion, resultado_matrizTransicion)
+    imprimirEstados(miCaso.estados, resultado_estados)
+  } catch (error) {
+    alert("Error en la entrada de datos")
   }
-*/
-
-/*
-const objeto = {
-  etiquetas: ['','',''],
-  tope: 0.00001,
-  matriz: [
-    [0,0.5,0.5],
-    [0.75,0,0.25],
-    [1,0,0]
-  ],
-  matrizTransicion: [],
-  estados:[
-    [0.4,0.25,0.35],
-  ],
-  estadosRestas: [],
-  estadosValidados: []
-}
-
-
-
-*/
-
-
-/*
-
-const objeto = {
-  etiquetas: ['',''],
-  tope: 0.00001,
-  matriz: [
-    [0.15,0.85],
-    [0.45,0.55],
-  ],
-  matrizTransicion: [],
-  estados:[
-    [0.25,0.75],
-  ],
-  estadosRestas: [],
-  estadosValidados: []
-}
-
-
-*/
+})

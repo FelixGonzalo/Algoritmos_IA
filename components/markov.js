@@ -83,7 +83,7 @@ const crearCaso = (matriz = [[0.6,0.2,0.2],[0.3,0.5,0.2],[0.3,0.3,0.4]], estadoI
   return caso
 }
 
-const algoritmoMarkov = (caso, llaveSeguridad) => {
+const algoritmoMarkov = (caso = null, llaveSeguridad = 500) => {
   if (!verificarSuma(caso.matriz)) {
     alert("Las filas de la matriz no suman 1")
   } else if (!verificarSuma(caso.estados)){
@@ -139,28 +139,16 @@ const form = document.getElementById('form')
 form.addEventListener("submit", (e) => {
   e.preventDefault()
   try {
-    let miCaso = null
-    if (e.target.matriz.value === '' && e.target.estado_inicial.value === '' && e.target.tope.value === '') {
-      miCaso = crearCaso()
-    } else {
-      let matriz = JSON.parse(`[${e.target.matriz.value}]`);
-      let estadoInicial = JSON.parse(`[${e.target.estado_inicial.value}]`);
-      let tope = e.target.tope.value
-      if (tope === '') {
-        miCaso = crearCaso(matriz,estadoInicial)
-      } else {
-        miCaso = crearCaso(matriz,estadoInicial,parseFloat(tope))
-      }
-    }
-    let llaveSeguridad = e.target.llaveSeguridad.value
-    console.log(llaveSeguridad)
-    if (llaveSeguridad === '' ) {
-      llaveSeguridad = 500
-    }
+    let matriz = JSON.parse(`[${e.target.matriz.value}]`);
+    let estadoInicial = JSON.parse(`[${e.target.estado_inicial.value}]`);
+    let tope = isNaN(e.target.tope.value) ? tope = 0.001 :  parseFloat(e.target.tope.value)
+    let llaveSeguridad = isNaN(e.target.llaveSeguridad.value) ? llaveSeguridad = 2 :  parseInt(e.target.llaveSeguridad.value)
+
+    let miCaso = crearCaso(matriz,estadoInicial,tope)
     algoritmoMarkov(miCaso,llaveSeguridad)
-    console.log(miCaso)
     imprimirMatriz(miCaso.matrizTransicion, resultado_matrizTransicion)
-    imprimirEstados(miCaso.estados, resultado_estados)
+    imprimirEstados(miCaso.estados, resultado_estados) 
+    console.log(miCaso)
   } catch (error) {
     alert("Error en la entrada de datos")
   }

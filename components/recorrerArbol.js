@@ -5,10 +5,12 @@ class Arbol {
     this.contDecisiones = 0
     this.cantSi = 0
     this.cantNo = 0
+    this.nodoActual = null
   }
 
   addConjDecisiones(conjDecisiones){
     this.conjDecisiones = conjDecisiones
+    this.contDecisiones = 0
   }
 
   recorrerConjDecisiones(nodo){
@@ -17,7 +19,9 @@ class Arbol {
       nodo.hijos.forEach(obj => {
         if (obj.condicion === conjDecisiones[this.contDecisiones]) {
           this.contDecisiones++
-          console.log(obj.condicion + " - " + obj.contenido)
+          // console.log(obj.condicion + " - " + obj.contenido)
+          imprimirRecorridoPasoApaso(obj.condicion, obj.contenido)
+          this.nodoActual = obj
           this.recorrerConjDecisiones(obj)
         }
       });
@@ -97,28 +101,34 @@ const select_opcionesRecorrido = document.getElementById('opciones_recorrido')
 const resultado_recorrido = document.getElementById('resultado_recorrido')
 
 const imprimirListaOpcionesRecorrido = (nodo) => {
-    select_opcionesRecorrido.innerHTML = ''
+    select_opcionesRecorrido.innerHTML = `<option value="Desconocido">Opciones</option>`
     nodo.hijos.map(obj => select_opcionesRecorrido.innerHTML += `<option value="${obj.condicion}">${obj.condicion}</option>`)
 }
 
-const imprimirRecorridoPasoApaso = () => {
-
+const imprimirRecorridoPasoApaso = (condicion = '', contenido = '') => {
+    resultado_recorrido.innerHTML += `<li class="condicion">${condicion}</li><li>${contenido}</li>`
 }
 
-
-
-select_opcionesRecorrido.addEventListener('input', () => console.log(select_opcionesRecorrido.value))
-
-
+var conjDecisiones = []
 const miArbol = new Arbol(n1)
-
-
 imprimirListaOpcionesRecorrido(miArbol.raiz)
+resultado_recorrido.innerHTML = '<li>¿Clientes?</li>'
+select_opcionesRecorrido.addEventListener('input', () => {
+  resultado_recorrido.innerHTML = '<li>¿Clientes?</li>'
+  conjDecisiones.push(select_opcionesRecorrido.value)
+  miArbol.addConjDecisiones(conjDecisiones)
+  miArbol.recorrerConjDecisiones(miArbol.raiz)
+  imprimirListaOpcionesRecorrido(miArbol.nodoActual)
+})
 
-console.log('----Recorrido del árbol de decisiones------')
-const conjDecisiones = ['Lleno','10-30','Si','Si','No']
-miArbol.addConjDecisiones(conjDecisiones)
-miArbol.recorrerConjDecisiones(miArbol.raiz)
 console.log('---- Obtener entropía ------')
 miArbol.recorrerYcalcularCantSiNo(miArbol.raiz)
 console.log('entropia: ' + miArbol.getEntropia(miArbol.cantSi,miArbol.cantNo))
+
+
+// se puede establecer todas las condiciones y luego recorrer
+// conjDecisiones = ['Lleno','10-30','Si','Si','No']
+// miArbol.addConjDecisiones(conjDecisiones)
+// miArbol.recorrerConjDecisiones(miArbol.raiz)
+
+

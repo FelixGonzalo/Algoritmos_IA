@@ -7,15 +7,39 @@
 
 #container-recorrido {
   background: rgb(218, 228, 238);
-  border: 2px solid rgb(201, 201, 202);
+  border: 2px solid rgb(92, 92, 92);
   width: 400px;
-  height: 400px;
   padding: 20px;
+  text-align: center;
 }
 
 h3 {
   text-align: center;
   letter-spacing: 1px;
+}
+
+#resultado_recorrido {
+  list-style: none;
+  padding: 0;
+}
+
+#resultado_recorrido li {
+  outline: 2px solid black;
+  padding: 10px;
+  display: inline-block;
+}
+
+#resultado_recorrido .condicion {
+  outline: none;
+  display: block;
+}
+
+#resultado_recorrido li:last-child {
+  background: rgb(255, 152, 152);
+}
+
+#opciones_recorrido {
+  padding: 4px;
 }
 
 #obtener_entropia {
@@ -30,7 +54,6 @@ h3 {
 
 img {
   width: 100%;
-  width: 500px;
+  max-width: 500px;
   margin: -7px;
-  height: 460px;
 }

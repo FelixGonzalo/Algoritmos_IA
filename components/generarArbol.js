@@ -81,50 +81,69 @@ const getEntropia = (cantSi = 0,cantNo = 0)  => {
   }
 } //getEntropia
 
-const getEntropiaDelAtributo = (array = []) => {
+const getEntropiaDelAtributo = (proporcionesAtributo = [], entropiasAtributo = []) => {
   let resultado = 0
-  array.forEach(obj => {
-    resultado += obj.proporcionConjunto*obj.entropia
+  let cont = 0
+  proporcionesAtributo.forEach(obj => {
+    resultado += obj * entropiasAtributo[cont]
+    cont++
   });
   return resultado
 }
 
-const ganancia = (entropiaSistema, entropiaAtributo) => {
+const getGanancia = (entropiaSistema, entropiaAtributo) => {
   return entropiaSistema - entropiaAtributo
 }
-
-// cargarEjemploDataSet()
-// console.log(dataSet)
-// getCantidadXvalorDelSistema('no')
 
 // Algoritmo
 cargarEjemploDataSet()
 
-var entropiaDelSistema = getEntropia(
-  getCantidadXvalorDelSistema('si'), 
-  getCantidadXvalorDelSistema('no')
-)
+// sistema
+var siDelSistema = 0
+var noDelSistema = 0
+var totalDelSistema = 0
+var entropiaDelSistema = 0
 
-var entropiaDelAtributo = getEntropia(
-  getCantidadXvalorDelAtributo('si','clima','lluvioso'), 
-  getCantidadXvalorDelAtributo('no','clima','lluvioso')
-)
+siDelSistema = getCantidadXvalorDelSistema('si')
+noDelSistema = getCantidadXvalorDelSistema('no')
+totalDelSistema = siDelSistema + noDelSistema
+entropiaDelSistema = getEntropia(siDelSistema,noDelSistema)
+console.log('-------- Sistema --------')
+console.log(`${dataSet.atributoObjetivo} si(${siDelSistema}) no(${noDelSistema}) -> ${entropiaDelSistema}`)
 
-console.log(entropiaDelSistema)
-console.log('atributo clima:' + entropiaDelAtributo )
+// Atributo
+var siDelValorAtributo = 0
+var noDelValorAtributo = 0
+var totalDelValorAtributo = 0
+var entropiaDelValorAtributo = 0
+var proporcionDelValorAtributo = 0
 
-var entropiaDelAtributo2 = 0
+var entropiasAtributo = []
+var proporcionesAtributo = []
+
+var entropiaDelAtributo = 0
+var ganancia = 0
+
 dataSet.atributos.forEach((nodoAtributo, index) => {
-  console.log('--------' + nodoAtributo + '--------')
-  dataSet.atributosValores[index].forEach(nodoValor => {
-    dataSet.registros.forEach(nodoRegistro => {
-      entropiaDelAtributo2 = getEntropia(
-        getCantidadXvalorDelAtributo('si',nodoAtributo,nodoValor), 
-        getCantidadXvalorDelAtributo('no',nodoAtributo,nodoValor)
-      )
+  if (nodoAtributo !== dataSet.atributoObjetivo) {
+    entropiasAtributo = []
+    proporcionesAtributo = []
+    console.log('--------' + nodoAtributo + '--------')
+    dataSet.atributosValores[index].forEach(nodoValor => {
+      siDelValorAtributo = getCantidadXvalorDelAtributo('si',nodoAtributo,nodoValor)
+      noDelValorAtributo = getCantidadXvalorDelAtributo('no',nodoAtributo,nodoValor)
+      totalDelAtributo = siDelValorAtributo + noDelValorAtributo
+      entropiaDelValorAtributo = getEntropia(siDelValorAtributo,noDelValorAtributo)
+      proporcionDelValorAtributo = totalDelAtributo/totalDelSistema
+      entropiasAtributo.push(entropiaDelValorAtributo)
+      proporcionesAtributo.push(proporcionDelValorAtributo)
+      console.log(`${nodoValor} si(${siDelValorAtributo}) no(${noDelValorAtributo}) -> ${entropiaDelValorAtributo}`)
     });
-    console.log(nodoValor + ' -> ' + entropiaDelAtributo2)
-  });
+    entropiaDelAtributo = getEntropiaDelAtributo(proporcionesAtributo, entropiasAtributo)
+    ganancia = getGanancia(entropiaDelSistema, entropiaDelAtributo)
+    console.log('entropia del atributo: ' + entropiaDelAtributo)
+    console.log('ganancia: ' + ganancia)
+  }
 });
 
 

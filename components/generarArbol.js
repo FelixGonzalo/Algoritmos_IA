@@ -1,52 +1,86 @@
 
-// Helpers del dataSet
+// HELPERS DEL DATASET
 
-const dataSet = {
-  atributos: [] ,
-  atributosValores: [] ,
-  atributoObjetivo: 'desconocido',
-  registros: []
+const crearDataSet = () => {
+  return {
+    atributos: [] ,
+    atributosValores: [] ,
+    atributoObjetivo: 'desconocido',
+    registros: []
+  }
 }
 
-const addAtributo = (nombre ='atributo',valores = ['valor1','valor2']) => {
+const addAtributo = (dataSet, nombre ='atributo',valores = ['valor1','valor2']) => {
   dataSet.atributos.push(nombre)
   dataSet.atributosValores.push(valores)
 }
 
-const addRegistro = ( arrayDatos = ['valor1','valor2']) => {
+const addRegistro = (dataSet, arrayDatos = ['valor1','valor2']) => {
   dataSet.registros.push(arrayDatos)
 }
 
-const definirObjetivo = ( nombre = 'atributo') => {
+const definirObjetivo = (dataSet, nombre = 'atributo') => {
   dataSet.atributoObjetivo = nombre
 }
 
-const cargarEjemploDataSet = () => {
-  addAtributo('clima',valores = ['lluvioso','nublado','soleado'])
-  addAtributo('temperatura',valores = ['caliente','templado','frio'])
-  addAtributo('humedad',valores = ['alta','normal'])
-  addAtributo('vientos',valores = ['false','true'])
-  addAtributo('pasear',valores = ['si','no'])
+const cargarEjemploDataSet = (dataSet) => {
+  addAtributo(dataSet,'clima',valores = ['lluvioso','nublado','soleado'])
+  addAtributo(dataSet,'temperatura',valores = ['caliente','templado','frio'])
+  addAtributo(dataSet,'humedad',valores = ['alta','normal'])
+  addAtributo(dataSet,'vientos',valores = ['false','true'])
+  addAtributo(dataSet,'pasear',valores = ['si','no'])
 
-  addRegistro(arrayDatos = ['lluvioso', 'caliente', 'alta', 'false', 'no'])
-  addRegistro(arrayDatos = ['lluvioso', 'caliente', 'alta', 'true', 'no'])
-  addRegistro(arrayDatos = ['nublado', 'caliente', 'alta', 'false', 'si'])
-  addRegistro(arrayDatos = ['soleado', 'templado', 'alta', 'false', 'si'])
-  addRegistro(arrayDatos = ['soleado', 'frio', 'normal', 'false', 'si'])
-  addRegistro(arrayDatos = ['soleado', 'frio', 'normal', 'true', 'no'])
-  addRegistro(arrayDatos = ['nublado', 'frio', 'normal', 'true', 'si'])
-  addRegistro(arrayDatos = ['lluvioso', 'templado', 'alta', 'false', 'no'])
-  addRegistro(arrayDatos = ['lluvioso', 'frio', 'normal', 'false', 'si'])
-  addRegistro(arrayDatos = ['soleado', 'templado', 'normal', 'false', 'si'])
-  addRegistro(arrayDatos = ['lluvioso', 'templado', 'normal', 'true', 'si'])
-  addRegistro(arrayDatos = ['nublado', 'templado', 'alta', 'true', 'si'])
-  addRegistro(arrayDatos = ['nublado', 'caliente', 'normal', 'false', 'si'])
-  addRegistro(arrayDatos = ['soleado', 'templado', 'alta', 'true', 'no'])
+  addRegistro(dataSet,arrayDatos = ['lluvioso', 'caliente', 'alta', 'false', 'no'])
+  addRegistro(dataSet,arrayDatos = ['lluvioso', 'caliente', 'alta', 'true', 'no'])
+  addRegistro(dataSet,arrayDatos = ['nublado', 'caliente', 'alta', 'false', 'si'])
+  addRegistro(dataSet,arrayDatos = ['soleado', 'templado', 'alta', 'false', 'si'])
+  addRegistro(dataSet,arrayDatos = ['soleado', 'frio', 'normal', 'false', 'si'])
+  addRegistro(dataSet,arrayDatos = ['soleado', 'frio', 'normal', 'true', 'no'])
+  addRegistro(dataSet,arrayDatos = ['nublado', 'frio', 'normal', 'true', 'si'])
+  addRegistro(dataSet,arrayDatos = ['lluvioso', 'templado', 'alta', 'false', 'no'])
+  addRegistro(dataSet,arrayDatos = ['lluvioso', 'frio', 'normal', 'false', 'si'])
+  addRegistro(dataSet,arrayDatos = ['soleado', 'templado', 'normal', 'false', 'si'])
+  addRegistro(dataSet,arrayDatos = ['lluvioso', 'templado', 'normal', 'true', 'si'])
+  addRegistro(dataSet,arrayDatos = ['nublado', 'templado', 'alta', 'true', 'si'])
+  addRegistro(dataSet,arrayDatos = ['nublado', 'caliente', 'normal', 'false', 'si'])
+  addRegistro(dataSet,arrayDatos = ['soleado', 'templado', 'alta', 'true', 'no'])
 
-  definirObjetivo('pasear')
+  definirObjetivo(dataSet,'pasear')
 }
 
-// Helpers del algoritmo
+// HELPERS PARA EL PROCEDIMIENTO
+
+const crearProcedimientoSistema = (nombre, cantSi,CantNo, entropia) => {
+  return {
+    sistema: {
+      nombre: nombre,
+      cantSi: cantSi,
+      cantNo: CantNo,
+      entropia: entropia
+    },
+    atributos: [] 
+  }
+}
+
+const crearProcedimientoAtributo = (nombre, entropiaDelAtributo, ganancia, arrayValores) => {
+  return {
+    nombre: nombre,
+    entropiaDelAtributo: entropiaDelAtributo,
+    ganancia: ganancia,
+    valores: arrayValores
+  }
+}
+
+const crearProcedimientoValor = (nombre, cantSi, cantNo, entropia) => {
+  return {
+    nombre: nombre,
+    cantSi: cantSi,
+    cantNo: cantNo,
+    entropia: entropia
+  }
+}
+
+// HELPERS PARA EL ALGORITMO
 
 const getCantidadXvalorDelSistema = (Xvalor = 'si') => {
   let i = dataSet.atributos.indexOf(dataSet.atributoObjetivo)
@@ -96,9 +130,12 @@ const getGanancia = (entropiaSistema, entropiaAtributo) => {
 }
 
 // Algoritmo
-cargarEjemploDataSet()
 
-// sistema
+const dataSet = crearDataSet()
+cargarEjemploDataSet(dataSet)
+const procedimientos = []
+
+// del sistema
 var siDelSistema = 0
 var noDelSistema = 0
 var totalDelSistema = 0
@@ -108,10 +145,12 @@ siDelSistema = getCantidadXvalorDelSistema('si')
 noDelSistema = getCantidadXvalorDelSistema('no')
 totalDelSistema = siDelSistema + noDelSistema
 entropiaDelSistema = getEntropia(siDelSistema,noDelSistema)
-console.log('-------- Sistema --------')
-console.log(`${dataSet.atributoObjetivo} si(${siDelSistema}) no(${noDelSistema}) -> ${entropiaDelSistema}`)
+// console.log('-------- Sistema --------')
+// console.log(`${dataSet.atributoObjetivo} si(${siDelSistema}) no(${noDelSistema}) -> ${entropiaDelSistema}`)
 
-// Atributo
+var procedimiento = crearProcedimientoSistema(dataSet.atributoObjetivo, siDelSistema,noDelSistema, entropiaDelSistema)
+
+// del Atributo
 var siDelValorAtributo = 0
 var noDelValorAtributo = 0
 var totalDelValorAtributo = 0
@@ -128,7 +167,11 @@ dataSet.atributos.forEach((nodoAtributo, index) => {
   if (nodoAtributo !== dataSet.atributoObjetivo) {
     entropiasAtributo = []
     proporcionesAtributo = []
-    console.log('--------' + nodoAtributo + '--------')
+
+    let arrayProcedimientoValor = []
+    let procedimientoValor = null
+
+    // console.log('--------' + nodoAtributo + '--------')
     dataSet.atributosValores[index].forEach(nodoValor => {
       siDelValorAtributo = getCantidadXvalorDelAtributo('si',nodoAtributo,nodoValor)
       noDelValorAtributo = getCantidadXvalorDelAtributo('no',nodoAtributo,nodoValor)
@@ -137,13 +180,22 @@ dataSet.atributos.forEach((nodoAtributo, index) => {
       proporcionDelValorAtributo = totalDelAtributo/totalDelSistema
       entropiasAtributo.push(entropiaDelValorAtributo)
       proporcionesAtributo.push(proporcionDelValorAtributo)
-      console.log(`${nodoValor} si(${siDelValorAtributo}) no(${noDelValorAtributo}) -> ${entropiaDelValorAtributo}`)
+      // console.log(`${nodoValor} si(${siDelValorAtributo}) no(${noDelValorAtributo}) -> ${entropiaDelValorAtributo}`)
+      
+      procedimientoValor = crearProcedimientoValor(nodoValor, siDelValorAtributo, noDelValorAtributo, entropiaDelValorAtributo)
+      arrayProcedimientoValor.push(procedimientoValor)
+
     });
     entropiaDelAtributo = getEntropiaDelAtributo(proporcionesAtributo, entropiasAtributo)
     ganancia = getGanancia(entropiaDelSistema, entropiaDelAtributo)
-    console.log('entropia del atributo: ' + entropiaDelAtributo)
-    console.log('ganancia: ' + ganancia)
+    // console.log('entropia del atributo: ' + entropiaDelAtributo)
+    // console.log('ganancia: ' + ganancia)
+
+    let procedimientoAtributo = crearProcedimientoAtributo(nodoAtributo, entropiaDelAtributo, ganancia, arrayProcedimientoValor)
+    procedimiento.atributos.push(procedimientoAtributo)
+
   }
 });
 
-
+procedimientos.push(procedimiento)
+console.log(procedimientos)

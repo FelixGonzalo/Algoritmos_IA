@@ -56,7 +56,8 @@ const crearProcedimientoSistema = (nombre, cantSi,CantNo, entropia) => {
       nombre: nombre,
       cantSi: cantSi,
       cantNo: CantNo,
-      entropia: entropia
+      entropia: entropia,
+      atributoDeMayorGanancia: 'Desconocido'
     },
     atributos: [] 
   }
@@ -140,6 +141,8 @@ var siDelSistema = 0
 var noDelSistema = 0
 var totalDelSistema = 0
 var entropiaDelSistema = 0
+var atributoDeMayorGanancia = 'Desconocidos'
+var temporalGananciaMayor = 0
 
 siDelSistema = getCantidadXvalorDelSistema('si')
 noDelSistema = getCantidadXvalorDelSistema('no')
@@ -163,26 +166,26 @@ var proporcionesAtributo = []
 var entropiaDelAtributo = 0
 var ganancia = 0
 
-dataSet.atributos.forEach((nodoAtributo, index) => {
-  if (nodoAtributo !== dataSet.atributoObjetivo) {
+dataSet.atributos.forEach((nombreAtributo, index) => {
+  if (nombreAtributo !== dataSet.atributoObjetivo) {
     entropiasAtributo = []
     proporcionesAtributo = []
 
     let arrayProcedimientoValor = []
     let procedimientoValor = null
 
-    // console.log('--------' + nodoAtributo + '--------')
-    dataSet.atributosValores[index].forEach(nodoValor => {
-      siDelValorAtributo = getCantidadXvalorDelAtributo('si',nodoAtributo,nodoValor)
-      noDelValorAtributo = getCantidadXvalorDelAtributo('no',nodoAtributo,nodoValor)
+    // console.log('--------' + nombreAtributo + '--------')
+    dataSet.atributosValores[index].forEach(nombreValor => {
+      siDelValorAtributo = getCantidadXvalorDelAtributo('si',nombreAtributo,nombreValor)
+      noDelValorAtributo = getCantidadXvalorDelAtributo('no',nombreAtributo,nombreValor)
       totalDelAtributo = siDelValorAtributo + noDelValorAtributo
       entropiaDelValorAtributo = getEntropia(siDelValorAtributo,noDelValorAtributo)
       proporcionDelValorAtributo = totalDelAtributo/totalDelSistema
       entropiasAtributo.push(entropiaDelValorAtributo)
       proporcionesAtributo.push(proporcionDelValorAtributo)
-      // console.log(`${nodoValor} si(${siDelValorAtributo}) no(${noDelValorAtributo}) -> ${entropiaDelValorAtributo}`)
+      // console.log(`${nombreValor} si(${siDelValorAtributo}) no(${noDelValorAtributo}) -> ${entropiaDelValorAtributo}`)
       
-      procedimientoValor = crearProcedimientoValor(nodoValor, siDelValorAtributo, noDelValorAtributo, entropiaDelValorAtributo)
+      procedimientoValor = crearProcedimientoValor(nombreValor, siDelValorAtributo, noDelValorAtributo, entropiaDelValorAtributo)
       arrayProcedimientoValor.push(procedimientoValor)
 
     });
@@ -191,11 +194,18 @@ dataSet.atributos.forEach((nodoAtributo, index) => {
     // console.log('entropia del atributo: ' + entropiaDelAtributo)
     // console.log('ganancia: ' + ganancia)
 
-    let procedimientoAtributo = crearProcedimientoAtributo(nodoAtributo, entropiaDelAtributo, ganancia, arrayProcedimientoValor)
+    let procedimientoAtributo = crearProcedimientoAtributo(nombreAtributo, entropiaDelAtributo, ganancia, arrayProcedimientoValor)
     procedimiento.atributos.push(procedimientoAtributo)
+
+    if (ganancia > temporalGananciaMayor) {
+      temporalGananciaMayor = ganancia
+      atributoDeMayorGanancia = nombreAtributo
+    }
 
   }
 });
+
+procedimiento.atributoDeMayorGanancia = atributoDeMayorGanancia
 
 procedimientos.push(procedimiento)
 console.log(procedimientos)

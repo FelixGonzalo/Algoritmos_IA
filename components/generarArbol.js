@@ -132,80 +132,85 @@ const getGanancia = (entropiaSistema, entropiaAtributo) => {
 
 // Algoritmo
 
+const analizarDataSet = (dataSet) => {
+
+  // del sistema
+  var siDelSistema = 0
+  var noDelSistema = 0
+  var totalDelSistema = 0
+  var entropiaDelSistema = 0
+  var atributoDeMayorGanancia = 'Desconocidos'
+  var temporalGananciaMayor = 0
+
+  siDelSistema = getCantidadXvalorDelSistema('si')
+  noDelSistema = getCantidadXvalorDelSistema('no')
+  totalDelSistema = siDelSistema + noDelSistema
+  entropiaDelSistema = getEntropia(siDelSistema,noDelSistema)
+  // console.log('-------- Sistema --------')
+  // console.log(`${dataSet.atributoObjetivo} si(${siDelSistema}) no(${noDelSistema}) -> ${entropiaDelSistema}`)
+
+  var procedimiento = crearProcedimientoSistema(dataSet.atributoObjetivo, siDelSistema,noDelSistema, entropiaDelSistema)
+
+  // del Atributo
+  var siDelValorAtributo = 0
+  var noDelValorAtributo = 0
+  var entropiaDelValorAtributo = 0
+  var proporcionDelValorAtributo = 0
+
+  var entropiasAtributo = []
+  var proporcionesAtributo = []
+
+  var entropiaDelAtributo = 0
+  var ganancia = 0
+
+  dataSet.atributos.forEach((nombreAtributo, index) => {
+    if (nombreAtributo !== dataSet.atributoObjetivo) {
+      entropiasAtributo = []
+      proporcionesAtributo = []
+
+      let arrayProcedimientoValor = []
+      let procedimientoValor = null
+
+      // console.log('--------' + nombreAtributo + '--------')
+      dataSet.atributosValores[index].forEach(nombreValor => {
+        siDelValorAtributo = getCantidadXvalorDelAtributo('si',nombreAtributo,nombreValor)
+        noDelValorAtributo = getCantidadXvalorDelAtributo('no',nombreAtributo,nombreValor)
+        totalDelAtributo = siDelValorAtributo + noDelValorAtributo
+        entropiaDelValorAtributo = getEntropia(siDelValorAtributo,noDelValorAtributo)
+        proporcionDelValorAtributo = totalDelAtributo/totalDelSistema
+        entropiasAtributo.push(entropiaDelValorAtributo)
+        proporcionesAtributo.push(proporcionDelValorAtributo)
+        // console.log(`${nombreValor} si(${siDelValorAtributo}) no(${noDelValorAtributo}) -> ${entropiaDelValorAtributo}`)
+        
+        procedimientoValor = crearProcedimientoValor(nombreValor, siDelValorAtributo, noDelValorAtributo, entropiaDelValorAtributo)
+        arrayProcedimientoValor.push(procedimientoValor)
+
+      });
+      entropiaDelAtributo = getEntropiaDelAtributo(proporcionesAtributo, entropiasAtributo)
+      ganancia = getGanancia(entropiaDelSistema, entropiaDelAtributo)
+      // console.log('entropia del atributo: ' + entropiaDelAtributo)
+      // console.log('ganancia: ' + ganancia)
+
+      let procedimientoAtributo = crearProcedimientoAtributo(nombreAtributo, entropiaDelAtributo, ganancia, arrayProcedimientoValor)
+      procedimiento.atributos.push(procedimientoAtributo)
+
+      if (ganancia > temporalGananciaMayor) {
+        temporalGananciaMayor = ganancia
+        atributoDeMayorGanancia = nombreAtributo
+      }
+
+    }
+  });
+
+  procedimiento.atributoDeMayorGanancia = atributoDeMayorGanancia
+  procedimientos.push(procedimiento)
+}
+
+
+
 const dataSet = crearDataSet()
 cargarEjemploDataSet(dataSet)
 const procedimientos = []
 
-// del sistema
-var siDelSistema = 0
-var noDelSistema = 0
-var totalDelSistema = 0
-var entropiaDelSistema = 0
-var atributoDeMayorGanancia = 'Desconocidos'
-var temporalGananciaMayor = 0
-
-siDelSistema = getCantidadXvalorDelSistema('si')
-noDelSistema = getCantidadXvalorDelSistema('no')
-totalDelSistema = siDelSistema + noDelSistema
-entropiaDelSistema = getEntropia(siDelSistema,noDelSistema)
-// console.log('-------- Sistema --------')
-// console.log(`${dataSet.atributoObjetivo} si(${siDelSistema}) no(${noDelSistema}) -> ${entropiaDelSistema}`)
-
-var procedimiento = crearProcedimientoSistema(dataSet.atributoObjetivo, siDelSistema,noDelSistema, entropiaDelSistema)
-
-// del Atributo
-var siDelValorAtributo = 0
-var noDelValorAtributo = 0
-var totalDelValorAtributo = 0
-var entropiaDelValorAtributo = 0
-var proporcionDelValorAtributo = 0
-
-var entropiasAtributo = []
-var proporcionesAtributo = []
-
-var entropiaDelAtributo = 0
-var ganancia = 0
-
-dataSet.atributos.forEach((nombreAtributo, index) => {
-  if (nombreAtributo !== dataSet.atributoObjetivo) {
-    entropiasAtributo = []
-    proporcionesAtributo = []
-
-    let arrayProcedimientoValor = []
-    let procedimientoValor = null
-
-    // console.log('--------' + nombreAtributo + '--------')
-    dataSet.atributosValores[index].forEach(nombreValor => {
-      siDelValorAtributo = getCantidadXvalorDelAtributo('si',nombreAtributo,nombreValor)
-      noDelValorAtributo = getCantidadXvalorDelAtributo('no',nombreAtributo,nombreValor)
-      totalDelAtributo = siDelValorAtributo + noDelValorAtributo
-      entropiaDelValorAtributo = getEntropia(siDelValorAtributo,noDelValorAtributo)
-      proporcionDelValorAtributo = totalDelAtributo/totalDelSistema
-      entropiasAtributo.push(entropiaDelValorAtributo)
-      proporcionesAtributo.push(proporcionDelValorAtributo)
-      // console.log(`${nombreValor} si(${siDelValorAtributo}) no(${noDelValorAtributo}) -> ${entropiaDelValorAtributo}`)
-      
-      procedimientoValor = crearProcedimientoValor(nombreValor, siDelValorAtributo, noDelValorAtributo, entropiaDelValorAtributo)
-      arrayProcedimientoValor.push(procedimientoValor)
-
-    });
-    entropiaDelAtributo = getEntropiaDelAtributo(proporcionesAtributo, entropiasAtributo)
-    ganancia = getGanancia(entropiaDelSistema, entropiaDelAtributo)
-    // console.log('entropia del atributo: ' + entropiaDelAtributo)
-    // console.log('ganancia: ' + ganancia)
-
-    let procedimientoAtributo = crearProcedimientoAtributo(nombreAtributo, entropiaDelAtributo, ganancia, arrayProcedimientoValor)
-    procedimiento.atributos.push(procedimientoAtributo)
-
-    if (ganancia > temporalGananciaMayor) {
-      temporalGananciaMayor = ganancia
-      atributoDeMayorGanancia = nombreAtributo
-    }
-
-  }
-});
-
-procedimiento.atributoDeMayorGanancia = atributoDeMayorGanancia
-
-procedimientos.push(procedimiento)
+analizarDataSet(dataSet)
 console.log(procedimientos)
